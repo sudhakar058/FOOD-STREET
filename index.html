@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD STREET</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section id="landing">
+        <header>
+            <h1><i class="fas fa-utensils icon"></i> FOOD STREET</h1>
+            <p>Welcome to Food Street! Explore our delicious menu.</p>
+        </header>
+        <main>
+            <button onclick="showSection('menu')">Go to Menu</button>
+        </main>
+    </section>
+
+    <section id="menu" class="hidden">
+        <header>
+            <h1><i class="fas fa-utensils icon"></i> FOOD STREET - Menu</h1>
+        </header>
+        <main>
+            <h2>Veg Starters</h2>
+            <ul id="veg-starters">
+                <li>Mirapakaya Bajji - ₹50 <button onclick="addToCart('Mirapakaya Bajji', 50)">Add</button></li>
+                <li>Pesarattu - ₹60 <button onclick="addToCart('Pesarattu', 60)">Add</button></li>
+                <li>Gobi 65 - ₹70 <button onclick="addToCart('Gobi 65', 70)">Add</button></li>
+            </ul>
+            <h2>Main Course - Vegetarian</h2>
+            <ul id="main-veg">
+                <li>Andhra Meals - ₹150 <button onclick="addToCart('Andhra Meals', 150)">Add</button></li>
+            </ul>
+            <h2>Non-Veg Starters</h2>
+            <ul id="nonveg-starters">
+                <li>Chicken 65 - ₹100 <button onclick="addToCart('Chicken 65', 100)">Add</button></li>
+            </ul>
+            <h2>Main Course - Non-Vegetarian</h2>
+            <ul id="main-nonveg">
+                <li>Chicken Biryani - ₹200 <button onclick="addToCart('Chicken Biryani', 200)">Add</button></li>
+            </ul>
+            <h2>Cart</h2>
+            <ul id="cart"></ul>
+            <p>Total: ₹<span id="total">0</span></p>
+            <label for="table-number">Table Number:</label>
+            <input type="number" id="table-number" min="1" placeholder="Enter your table number" required>
+            <button onclick="placeOrder()">Place Order</button>
+            <button onclick="showSection('landing')">Back</button>
+        </main>
+    </section>
+
+    <section id="game-selection" class="hidden">
+        <header>
+            <h1><i class="fas fa-gamepad icon"></i> Play a Game for Discounts!</h1>
+            <p>Choose a game to win rewards on your order (one game per order).</p>
+        </header>
+        <main>
+            <button onclick="showSection('sudoku')">Play Sudoku (₹100 Off)</button>
+            <button onclick="showSection('foodcatcher')">Play Food Catcher (₹10 Off at 150 Points)</button>
+            <button onclick="showSection('payment')">Skip to Payment</button>
+        </main>
+    </section>
+
+    <section id="sudoku" class="hidden">
+        <header>
+            <h1><i class="fas fa-puzzle-piece icon"></i> Sudoku Game</h1>
+            <p>Solve to win ₹100 off!</p>
+        </header>
+        <main>
+            <div id="sudoku-grid"></div>
+            <button onclick="checkSudoku()">Submit</button>
+            <p id="sudoku-result"></p>
+            <button onclick="showSection('game-selection')">Back</button>
+        </main>
+    </section>
+
+    <section id="foodcatcher" class="hidden">
+        <header>
+            <h1><i class="fas fa-hamburger icon"></i> Food Catcher</h1>
+            <p>Catch food to win ₹10 off at 150 points!</p>
+        </header>
+        <main>
+            <canvas id="gameCanvas" width="400" height="600"></canvas>
+            <p>Score: <span id="score">0</span></p>
+            <button onclick="startGame()">Start Game</button>
+            <button onclick="showSection('game-selection')">Back</button>
+        </main>
+    </section>
+
+    <section id="payment" class="hidden">
+        <header>
+            <h1><i class="fas fa-credit-card icon"></i> Payment</h1>
+            <p>Review your order and proceed to payment.</p>
+        </header>
+        <main id="payment-section">
+            <div id="payment-details"></div>
+            <h2>Payment Options</h2>
+            <ul><li><img src="phonepe scanner.jpg" alt="PhonePe QR Code"></li></ul>
+            <ul>
+                <li>UPI - <a href="#">9502022517@ptsbi</a></li>
+                <li>UPI - <a href="#">9502022517@ybl</a></li>
+            </ul>
+            <button onclick="processPayment()">Proceed to Payment</button>
+            <button onclick="showSection('menu')">Back to Menu</button>
+        </main>
+    </section>
+
+    <section id="feedback" class="hidden">
+        <div class="feedback-container">
+            <h2>Feedback Form</h2>
+            <form onsubmit="submitFeedback(event)">
+                <div class="form-group">
+                    <label for="name">Name (Optional)</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rate your experience (1-5)</label>
+                    <div class="rating">
+                        <input type="range" id="rating" name="rating" min="1" max="5" value="3" step="1">
+                        <span class="rating-value">3</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Share your feedback..."></textarea>
+                </div>
+                <button type="submit">Submit Feedback</button>
+            </form>
+            <h2>Previous Feedback</h2>
+            <div id="feedback-history"></div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
